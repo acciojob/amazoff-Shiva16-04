@@ -1,17 +1,15 @@
 package com.driver;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class service {
+public class OrderService {
 
-    public repository repoObj=new repository();
+    public OrderRepository repoObj=new OrderRepository();
 
     //Method 1: addOrder
     public String addOrder(Order order){
@@ -130,9 +128,9 @@ public class service {
         HashMap<String, Order>orders=repoObj.getOrdersDatabase();
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
         orders.remove(orderId);
-        for(List<Order>assignedOrders:db.values()){
-            for(Order order:assignedOrders){
-                if(order.getId()==orderId)assignedOrders.remove(order);
+        for(String partnerId:db.keySet()){
+            for(Order order:db.get(partnerId)){
+                if(order.getId()==orderId)db.get(partnerId).remove(order);
                 return " removed successfully";
             }
         }

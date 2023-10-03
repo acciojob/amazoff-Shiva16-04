@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @Repository
-public class repository {
+public class OrderRepository {
     private HashMap<String, Order>ordersDatabase;
     private HashMap<String, DeliveryPartner>deliveryPartnerDatabase;
     private HashMap<String, List<Order>>assignedOrdersDatabase;
-    repository(){
+    OrderRepository(){
         ordersDatabase=new HashMap<>();
         deliveryPartnerDatabase=new HashMap<>();
         assignedOrdersDatabase=new HashMap<>();
@@ -39,7 +39,6 @@ public class repository {
     public String addPartner(String partnerId){
         //updating database 1
         DeliveryPartner newPartner=new DeliveryPartner(partnerId);
-        newPartner.setNumberOfOrders(0);
         deliveryPartnerDatabase.put(partnerId, newPartner);
         //updating database 2
         List<Order>ordersList=new ArrayList<>();
