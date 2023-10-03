@@ -48,7 +48,7 @@ public class service {
 
     //Method 7: getOrdersByPartnerId
 
-    public List<String>getOrdersByPartnerId(String partnerId) throws Exception{
+    public List<String>getOrdersByPartnerId(String partnerId) {
         List<String>res=new ArrayList<>();
         HashMap<String, DeliveryPartner> db=repoObj.getDeliveryPartnerDatabase();
         if(db.containsKey(partnerId)==true && repoObj.getAssignedOrdersDatabase().containsKey(partnerId)==true) {
@@ -92,7 +92,7 @@ public class service {
         int finalTime=conversion(time);
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
         List<Order>orders=db.get(partnerId);
-        int cnt=0;
+        Integer cnt=0;
         for(Order order:orders){
             if(order.getDeliveryTime()>finalTime)cnt++;
         }
@@ -102,12 +102,14 @@ public class service {
     //Method 11: get-Last-Delivery-Time-By-PartnerId
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
-        List<Order>orders=db.get(partnerId);
-        int max=0;
-        for(Order order:orders){
-            if(order.getDeliveryTime()>max)max=order.getDeliveryTime();
-        }
-        return revConversion(max);
+        if(db.containsKey(partnerId)==true) {
+            List<Order> orders = db.get(partnerId);
+            int max = Integer.MIN_VALUE;
+            for (Order order : orders) {
+                if (order.getDeliveryTime() > max) max = order.getDeliveryTime();
+            }
+            return revConversion(max);
+        }else return "";
     }
 
     //Method 12: delete-partner-by-id
@@ -153,17 +155,19 @@ public class service {
         String temp1="";
         String hr="";
         String min="";
-        if(time/60<10){
-            hr=""+0+time/60;
+        if(time/60==0){
+            hr=""+"00";
         }else{
-            hr=""+time/60;
+            if(time/60<10) hr=""+0+time/60;
+            else hr=""+time/60;
         }
-        if(time%60<10){
-            min=""+0+time%60;
+        if(time%60==0){
+            min="00";
         }else {
-            min=""+time%60;
+            if (time % 60 < 10) min = ""+0+time%60;
+            else min = ""+time%60;
         }
-        temp1=""+hr+":"+min;
+        temp1 = "" + hr + ":" + min;
         return temp1;
     }
 }
