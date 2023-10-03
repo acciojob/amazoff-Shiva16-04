@@ -71,16 +71,11 @@ public class OrderController {
     }
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
-    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
+    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId)throws Exception{
         List<String> orders = null;
         //orders should contain a list of orders by PartnerId
-        try {
-            orders=serviceObj.getOrdersByPartnerId(partnerId);
-            return new ResponseEntity<>(orders, HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        orders=serviceObj.getOrdersByPartnerId(partnerId);
+        return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all-orders")
