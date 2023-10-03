@@ -40,9 +40,6 @@ public class OrderRepository {
         //updating database 1
         DeliveryPartner newPartner=new DeliveryPartner(partnerId);
         deliveryPartnerDatabase.put(partnerId, newPartner);
-        //updating database 2
-        List<Order>ordersList=new ArrayList<>();
-        assignedOrdersDatabase.put(partnerId,ordersList);
         return "New delivery partner added successfully";
     }
 
@@ -50,11 +47,14 @@ public class OrderRepository {
     public String addOrderPartnerPair(String orderId, String partnerId){
         DeliveryPartner partner=deliveryPartnerDatabase.get(partnerId);
         partner.setNumberOfOrders(partner.getNumberOfOrders()+1);
-
-        List<Order>orders=assignedOrdersDatabase.get(partnerId);
-        orders.add(ordersDatabase.get(orderId));
+        if(getAssignedOrdersDatabase().containsKey(partnerId)==false){
+            List<Order>ordersList=new ArrayList<>();
+            ordersList.add(getOrdersDatabase().get(orderId));
+            assignedOrdersDatabase.put(partnerId,ordersList);
+        }else {
+            List<Order> orders = assignedOrdersDatabase.get(partnerId);
+            orders.add(getOrdersDatabase().get(orderId));
+        }
         return "New order-partner pair added successfully";
     }
-
-
 }

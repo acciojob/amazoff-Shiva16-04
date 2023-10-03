@@ -127,10 +127,14 @@ public class OrderService {
     public String deleteOrderById(String orderId){
         HashMap<String, Order>orders=repoObj.getOrdersDatabase();
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
+        HashMap<String, DeliveryPartner>deliveryPartnerDb=repoObj.getDeliveryPartnerDatabase();
         orders.remove(orderId);
         for(String partnerId:db.keySet()){
             for(Order order:db.get(partnerId)){
-                if(order.getId()==orderId)db.get(partnerId).remove(order);
+                if(order.getId().equals(orderId)){
+                    db.get(partnerId).remove(order);
+                    deliveryPartnerDb.get(partnerId).setNumberOfOrders(deliveryPartnerDb.get(partnerId).getNumberOfOrders()-1);
+                }
                 return " removed successfully";
             }
         }
