@@ -1,5 +1,6 @@
 package com.driver;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,6 @@ public class OrderController {
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
     public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
         List<String> orders = null;
-
         //orders should contain a list of orders by PartnerId
         try {
             orders=serviceObj.getOrdersByPartnerId(partnerId);

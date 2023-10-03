@@ -50,15 +50,21 @@ public class service {
 
     public List<String>getOrdersByPartnerId(String partnerId)throws Exception{
         List<String>res=new ArrayList<>();
-        List<Order>resDb=repoObj.getAssignedOrdersDatabase().get(partnerId);
-        if(resDb.size()==0) {
-            for (Order order : resDb) {
-                res.add(order.getId());
+        HashMap<String, DeliveryPartner> db=repoObj.getDeliveryPartnerDatabase();
+        if(db.containsKey(partnerId)==false){
+            List<Order>resDb=repoObj.getAssignedOrdersDatabase().get(partnerId);
+            if(resDb.size()==0) {
+                for (Order order : resDb) {
+                    res.add(order.getId());
+                }
+                return res;
+            }else{
+                throw new Exception("Assigned orders not found");
             }
-            return res;
         }else{
-            throw new Exception("Assigned orders not found");
+            throw new Exception("partnerId not found");
         }
+
     }
 
     //Method 8: get-all-orders
