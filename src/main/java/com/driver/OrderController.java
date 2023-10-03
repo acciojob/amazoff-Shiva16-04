@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("orders")
 public class OrderController {
-    @Autowired
-    public service serviceObj;
+
+    public service serviceObj=new service();
 
     @PostMapping("/add-order")
     public ResponseEntity<String> addOrder(@RequestBody Order order){
@@ -71,11 +71,15 @@ public class OrderController {
     }
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
-    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId)throws Exception{
+    public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
         List<String> orders = null;
         //orders should contain a list of orders by PartnerId
-        orders=serviceObj.getOrdersByPartnerId(partnerId);
-        return new ResponseEntity<>(orders, HttpStatus.CREATED);
+        try {
+            orders=serviceObj.getOrdersByPartnerId(partnerId);
+            return new ResponseEntity<>(orders, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/get-all-orders")

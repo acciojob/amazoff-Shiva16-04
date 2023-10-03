@@ -10,8 +10,8 @@ import java.util.List;
 
 @Service
 public class service {
-    @Autowired
-    public repository repoObj;
+
+    public repository repoObj=new repository();
 
     //Method 1: addOrder
     public String addOrder(Order order){
