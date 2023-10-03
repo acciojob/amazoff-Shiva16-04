@@ -80,14 +80,21 @@ public class service {
 
     //Method 9: get-count-of-unassigned-orders
 
-    public int getCountOfUnassignedOrders(){
+    public int getCountOfUnassignedOrders()throws Exception{
         HashMap<String, List<Order>>assignedDb=repoObj.getAssignedOrdersDatabase();
-        int overallCnt=repoObj.getOrdersDatabase().size();
-        int assignedCnt=0;
-        for(List<Order>orders:assignedDb.values()){
-            assignedCnt+=orders.size();
+        if(assignedDb.size()!=0) {
+            int overallCnt = repoObj.getOrdersDatabase().size();
+            if(overallCnt==0){
+                throw new Exception("Orders not found");
+            }
+            int assignedCnt = 0;
+            for (List<Order> orders : assignedDb.values()) {
+                assignedCnt += orders.size();
+            }
+            return overallCnt - assignedCnt;
+        }else{
+            throw new Exception("Orders and pairs not found");
         }
-        return overallCnt-assignedCnt;
     }
 
     //Method 10: get-count-of-orders-left-after-given-time
@@ -119,7 +126,12 @@ public class service {
     public String deletePartnerById(String partnerId){
         HashMap<String, DeliveryPartner>db=repoObj.getDeliveryPartnerDatabase();
         db.remove(partnerId);
-        return " removed successfully";
+        HashMap<String, List<Order>>db2=repoObj.getAssignedOrdersDatabase();
+        if(db2.containsKey(partnerId)==true){
+            db2.remove(partnerId);
+            return " removed successfully";
+        }
+        return  " removed successfully";
     }
 
     //Method 13: delete-order-by-id
