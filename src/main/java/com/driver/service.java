@@ -48,13 +48,17 @@ public class service {
 
     //Method 7: getOrdersByPartnerId
 
-    public List<String>getOrdersByPartnerId(String partnerId){
+    public List<String>getOrdersByPartnerId(String partnerId)throws Exception{
         List<String>res=new ArrayList<>();
         List<Order>resDb=repoObj.getAssignedOrdersDatabase().get(partnerId);
-        for(Order order:resDb){
-            res.add(order.getId());
+        if(resDb.size()==0) {
+            for (Order order : resDb) {
+                res.add(order.getId());
+            }
+            return res;
+        }else{
+            throw new Exception("Assigned orders not found");
         }
-        return res;
     }
 
     //Method 8: get-all-orders
