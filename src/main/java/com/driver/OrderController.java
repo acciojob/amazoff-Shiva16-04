@@ -95,15 +95,9 @@ public class OrderController {
     @GetMapping("/get-count-of-unassigned-orders")
     public ResponseEntity<Integer> getCountOfUnassignedOrders(){
         Integer countOfOrders = 0;
-
         //Count of orders that have not been assigned to any DeliveryPartner
-        try {
-            countOfOrders=serviceObj.getCountOfUnassignedOrders();
-            return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        countOfOrders=serviceObj.getCountOfUnassignedOrders();
+        return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-count-of-orders-left-after-given-time/{partnerId}")

@@ -48,23 +48,19 @@ public class service {
 
     //Method 7: getOrdersByPartnerId
 
-    public List<String>getOrdersByPartnerId(String partnerId)throws Exception{
+    public List<String>getOrdersByPartnerId(String partnerId) throws Exception{
         List<String>res=new ArrayList<>();
         HashMap<String, DeliveryPartner> db=repoObj.getDeliveryPartnerDatabase();
-        if(db.containsKey(partnerId)==false){
-            List<Order>resDb=repoObj.getAssignedOrdersDatabase().get(partnerId);
-            if(resDb.size()==0) {
+        if(db.containsKey(partnerId)==true && repoObj.getAssignedOrdersDatabase().containsKey(partnerId)==true) {
+            List<Order> resDb = repoObj.getAssignedOrdersDatabase().get(partnerId);
+            if (resDb.size() != 0) {
                 for (Order order : resDb) {
                     res.add(order.getId());
                 }
-                return res;
-            }else{
-                throw new Exception("Assigned orders not found");
             }
-        }else{
-            throw new Exception("partnerId not found");
+            return res;
         }
-
+        return res;
     }
 
     //Method 8: get-all-orders
@@ -80,21 +76,14 @@ public class service {
 
     //Method 9: get-count-of-unassigned-orders
 
-    public int getCountOfUnassignedOrders()throws Exception{
+    public int getCountOfUnassignedOrders(){
         HashMap<String, List<Order>>assignedDb=repoObj.getAssignedOrdersDatabase();
-        if(assignedDb.size()!=0) {
-            int overallCnt = repoObj.getOrdersDatabase().size();
-            if(overallCnt==0){
-                throw new Exception("Orders not found");
-            }
-            int assignedCnt = 0;
-            for (List<Order> orders : assignedDb.values()) {
-                assignedCnt += orders.size();
-            }
-            return overallCnt - assignedCnt;
-        }else{
-            throw new Exception("Orders and pairs not found");
+        int overallCnt = repoObj.getOrdersDatabase().size();
+        int assignedCnt = 0;
+        for (List<Order> orders : assignedDb.values()) {
+            assignedCnt += orders.size();
         }
+        return overallCnt - assignedCnt;
     }
 
     //Method 10: get-count-of-orders-left-after-given-time
