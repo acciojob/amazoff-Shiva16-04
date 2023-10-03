@@ -130,9 +130,9 @@ public class service {
         HashMap<String, Order>orders=repoObj.getOrdersDatabase();
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
         orders.remove(orderId);
-        for(List<Order>order:db.values()){
-            if(order.contains(orderId)){
-                order.remove(orderId);
+        for(List<Order>assignedOrders:db.values()){
+            for(Order order:assignedOrders){
+                if(order.getId()==orderId)assignedOrders.remove(order);
                 return " removed successfully";
             }
         }

@@ -130,6 +130,6 @@ public class OrderController {
         //Delete an order and also
         // remove it from the assigned order of that partnerId
         String res= serviceObj.deleteOrderById(orderId);
-        return new ResponseEntity<>(orderId + res, HttpStatus.CREATED);
+        return new ResponseEntity<>(orderId+res, HttpStatus.CREATED);
     }
 }
