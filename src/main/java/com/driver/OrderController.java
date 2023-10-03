@@ -77,6 +77,7 @@ public class OrderController {
         try {
             orders=serviceObj.getOrdersByPartnerId(partnerId);
             return new ResponseEntity<>(orders, HttpStatus.CREATED);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
