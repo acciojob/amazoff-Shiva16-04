@@ -65,11 +65,11 @@ public class OrderService {
 
     public List<String>getAllOrders(){
         HashMap<String, Order>ordersDb=repoObj.getOrdersDatabase();
-        List<String>res=new ArrayList<>();
-        for(Order order:ordersDb.values()){
-            res.add(order.getId());
-        }
-        return res;
+//        List<String>res=new ArrayList<>();
+//        for(Order order:ordersDb.values()){
+//            res.add(order.getId());
+//        }
+        return new ArrayList<>(ordersDb.keySet());
     }
 
     //Method 9: get-count-of-unassigned-orders
@@ -100,14 +100,16 @@ public class OrderService {
     //Method 11: get-Last-Delivery-Time-By-PartnerId
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
-        if(db.containsKey(partnerId)==true) {
-            List<Order> orders = db.get(partnerId);
+//        if(db.containsKey(partnerId)==true) {
+            List<Order> orders = db.getOrDefault(partnerId,new ArrayList<>());
             int max = Integer.MIN_VALUE;
             for (Order order : orders) {
-                if (order.getDeliveryTime() > max) max = order.getDeliveryTime();
+//                if (order.getDeliveryTime() > max)
+                    max = Math.max(max, order.getDeliveryTime());
             }
             return revConversion(max);
-        }else return "";
+//        }
+//        else return "";
     }
 
     //Method 12: delete-partner-by-id
@@ -157,21 +159,24 @@ public class OrderService {
     }
     private String revConversion(int time){
         String temp1="";
-        String hr="";
-        String min="";
-        if(time/60==0){
-            hr=""+"00";
-        }else{
-            if(time/60<10) hr=""+0+time/60;
-            else hr=""+time/60;
-        }
-        if(time%60==0){
-            min="00";
-        }else {
-            if (time % 60 < 10) min = ""+0+time%60;
-            else min = ""+time%60;
-        }
+        String hr=""+(time/60);
+        String min=""+(time%60);
+//        if(time/60==0){
+//            hr=""+"00";
+//        }else{
+//            if(time/60<10) hr=""+0+time/60;
+//            else hr=""+time/60;
+//        }
+//        if(time%60==0){
+//            min="00";
+//        }else {
+//            if (time % 60 < 10) min = ""+0+time%60;
+//            else min = ""+time%60;
+//        }
+        if(hr.length()==1)hr='0'+hr;
+        if(min.length()==1)min='0'+min;
         temp1 = "" + hr + ":" + min;
+
         return temp1;
     }
 }
