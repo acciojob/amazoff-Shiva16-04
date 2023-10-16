@@ -144,18 +144,18 @@ public class OrderService {
     }
     //Methods : Utility
     private int conversion(String deliveryTime){
-//        String temp1="";
-//        int temp2=0;
-//        temp1+=deliveryTime.charAt(0);
-//        temp1+=deliveryTime.charAt(1);
-//        temp2=Integer.valueOf(temp1)*60;
-//        temp1="";
-//        temp1+=deliveryTime.charAt(3);
-//        temp1+=deliveryTime.charAt(4);
-//        temp2+=Integer.valueOf(temp1);
-//        return temp2;
-        int time=(Integer.parseInt(deliveryTime.substring(0,2))*60)+Integer.parseInt(deliveryTime.substring(3));
-        return time; //time in minutes
+        String temp1="";
+        int temp2=0;
+        temp1+=deliveryTime.charAt(0);
+        temp1+=deliveryTime.charAt(1);
+        temp2=Integer.valueOf(temp1)*60;
+        temp1="";
+        temp1+=deliveryTime.charAt(3);
+        temp1+=deliveryTime.charAt(4);
+        temp2+=Integer.valueOf(temp1);
+        return temp2;
+//        int time=(Integer.parseInt(deliveryTime.substring(0,2))*60)+Integer.parseInt(deliveryTime.substring(3));
+//        return time; //time in minutes
     }
     private String revConversion(int time){
         String temp1="";

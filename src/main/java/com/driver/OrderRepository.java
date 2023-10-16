@@ -54,6 +54,9 @@ public class OrderRepository {
 //        }else {
             List<Order> orders = assignedOrdersDatabase.getOrDefault(partnerId,new ArrayList<>());
             orders.add(getOrdersDatabase().get(orderId));
+            if(orders.size()==1) {
+                getAssignedOrdersDatabase().put(partnerId,orders);
+            }
 //        }
         return "New order-partner pair added successfully";
     }
