@@ -159,24 +159,20 @@ public class OrderService {
     }
     private String revConversion(int time){
         String temp1="";
-        String hr=""+(time/60);
-        String min=""+(time%60);
-//        if(time/60==0){
-//            hr=""+"00";
-//        }else{
-//            if(time/60<10) hr=""+0+time/60;
-//            else hr=""+time/60;
-//        }
-//        if(time%60==0){
-//            min="00";
-//        }else {
-//            if (time % 60 < 10) min = ""+0+time%60;
-//            else min = ""+time%60;
-//        }
-        if(hr.length()==1)hr='0'+hr;
-        if(min.length()==1)min='0'+min;
-        temp1 = "" + hr + ":" + min;
-
+        String hr="";
+        String min="";
+        if(time/60==0){
+            hr=""+"00";
+        }else{
+            if(time/60<10) hr=""+'0'+time/60;
+            else hr=""+time/60;
+        }
+        if(time%60==0){
+            min="00";
+        }else {
+            if (time % 60 < 10) min = ""+'0'+time%60;
+            else min = ""+time%60;
+        }
         return temp1;
     }
 }
