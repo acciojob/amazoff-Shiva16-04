@@ -65,10 +65,6 @@ public class OrderService {
 
     public List<String>getAllOrders(){
         HashMap<String, Order>ordersDb=repoObj.getOrdersDatabase();
-//        List<String>res=new ArrayList<>();
-//        for(Order order:ordersDb.values()){
-//            res.add(order.getId());
-//        }
         return new ArrayList<>(ordersDb.keySet());
     }
 
@@ -100,23 +96,22 @@ public class OrderService {
     //Method 11: get-Last-Delivery-Time-By-PartnerId
     public String getLastDeliveryTimeByPartnerId(String partnerId){
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
-//        if(db.containsKey(partnerId)==true) {
+        if(db.containsKey(partnerId)==true) {
             List<Order> orders = db.getOrDefault(partnerId,new ArrayList<>());
             int max = Integer.MIN_VALUE;
             for (Order order : orders) {
-//                if (order.getDeliveryTime() > max)
-                    max = Math.max(max, order.getDeliveryTime());
+                max = Math.max(max, order.getDeliveryTime());
             }
             return revConversion(max);
-//        }
-//        else return "";
+        }
+        else return "";
     }
 
     //Method 12: delete-partner-by-id
 
     public String deletePartnerById(String partnerId){
-        HashMap<String, DeliveryPartner>db=repoObj.getDeliveryPartnerDatabase();
-        db.remove(partnerId);
+        HashMap<String, DeliveryPartner>db1=repoObj.getDeliveryPartnerDatabase();
+        if(db1.containsKey(partnerId)==true)db1.remove(partnerId);
         HashMap<String, List<Order>>db2=repoObj.getAssignedOrdersDatabase();
         if(db2.containsKey(partnerId)==true){
             db2.remove(partnerId);
@@ -130,12 +125,13 @@ public class OrderService {
         HashMap<String, Order>orders=repoObj.getOrdersDatabase();
         HashMap<String, List<Order>>db=repoObj.getAssignedOrdersDatabase();
         HashMap<String, DeliveryPartner>deliveryPartnerDb=repoObj.getDeliveryPartnerDatabase();
-        orders.remove(orderId);
+        if(orders.containsKey(orderId)==true)orders.remove(orderId);
         for(String partnerId:db.keySet()){
             for(Order order:db.get(partnerId)){
                 if(order.getId().equals(orderId)){
                     db.get(partnerId).remove(order);
                     deliveryPartnerDb.get(partnerId).setNumberOfOrders(deliveryPartnerDb.get(partnerId).getNumberOfOrders()-1);
+                    if(db.get(partnerId).size()==0)db.remove(partnerId);
                 }
                 return " removed successfully";
             }
@@ -144,16 +140,6 @@ public class OrderService {
     }
     //Methods : Utility
     private int conversion(String deliveryTime){
-//        String temp1="";
-//        int temp2=0;
-//        temp1+=deliveryTime.charAt(0);
-//        temp1+=deliveryTime.charAt(1);
-//        temp2=Integer.valueOf(temp1)*60;
-//        temp1="";
-//        temp1+=deliveryTime.charAt(3);
-//        temp1+=deliveryTime.charAt(4);
-//        temp2+=Integer.valueOf(temp1);
-//        return temp2;
         int time=(Integer.parseInt(deliveryTime.substring(0,2))*60)+Integer.parseInt(deliveryTime.substring(3));
         return time; //time in minutes
     }

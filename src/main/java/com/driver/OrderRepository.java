@@ -47,17 +47,11 @@ public class OrderRepository {
     public String addOrderPartnerPair(String orderId, String partnerId){
         DeliveryPartner partner=deliveryPartnerDatabase.get(partnerId);
         partner.setNumberOfOrders(partner.getNumberOfOrders()+1);
-//        if(getAssignedOrdersDatabase().containsKey(partnerId)==false){
-//            List<Order>ordersList=new ArrayList<>();
-//            ordersList.add(getOrdersDatabase().get(orderId));
-//            assignedOrdersDatabase.put(partnerId,ordersList);
-//        }else {
-            List<Order> orders = assignedOrdersDatabase.getOrDefault(partnerId,new ArrayList<>());
-            orders.add(getOrdersDatabase().get(orderId));
-            if(orders.size()==1) {
-                getAssignedOrdersDatabase().put(partnerId,orders);
-            }
-//        }
+        List<Order> orders = assignedOrdersDatabase.getOrDefault(partnerId,new ArrayList<>());
+        orders.add(getOrdersDatabase().get(orderId));
+        if(orders.size()==1) {
+            getAssignedOrdersDatabase().put(partnerId,orders);
+        }
         return "New order-partner pair added successfully";
     }
 }
