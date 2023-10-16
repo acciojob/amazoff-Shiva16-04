@@ -26,82 +26,74 @@ public class OrderController {
 
     @PutMapping("/add-order-partner-pair")
     public ResponseEntity<String> addOrderPartnerPair(@RequestParam String orderId, @RequestParam String partnerId){
-        String res=serviceObj.addOrderPartnerPair(orderId, partnerId);
         //This is basically assigning that order to that partnerId
+        String res=serviceObj.addOrderPartnerPair(orderId, partnerId);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-order-by-id/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable String orderId){
 
-        Order order= null;
-        order=serviceObj.getOrderById(orderId);
+        Order order=serviceObj.getOrderById(orderId);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-partner-by-id/{partnerId}")
     public ResponseEntity<DeliveryPartner> getPartnerById(@PathVariable String partnerId){
 
-        DeliveryPartner deliveryPartner = null;
-
         //deliveryPartner should contain the value given by partnerId
-        deliveryPartner=serviceObj.getPartnerById(partnerId);
+        DeliveryPartner deliveryPartner=serviceObj.getPartnerById(partnerId);
         return new ResponseEntity<>(deliveryPartner, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-order-count-by-partner-id/{partnerId}")
     public ResponseEntity<Integer> getOrderCountByPartnerId(@PathVariable String partnerId){
 
-        Integer orderCount = 0;
-
         //orderCount should denote the orders given by a partner-id
-        orderCount= serviceObj.getOrderCountByPartnerId(partnerId);
+        Integer orderCount = serviceObj.getOrderCountByPartnerId(partnerId);
         return new ResponseEntity<>(orderCount, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-orders-by-partner-id/{partnerId}")
     public ResponseEntity<List<String>> getOrdersByPartnerId(@PathVariable String partnerId){
-        List<String> orders = null;
 
         //orders should contain a list of orders by PartnerId
-        orders=serviceObj.getOrdersByPartnerId(partnerId);
+        List<String> orders =serviceObj.getOrdersByPartnerId(partnerId);
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-all-orders")
     public ResponseEntity<List<String>> getAllOrders(){
-        List<String> orders = null;
-
         //Get all orders
-        orders=serviceObj.getAllOrders();
+        List<String> orders =serviceObj.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-count-of-unassigned-orders")
     public ResponseEntity<Integer> getCountOfUnassignedOrders(){
-        Integer countOfOrders = 0;
+//        Integer countOfOrders = 0;
 
         //Count of orders that have not been assigned to any DeliveryPartner
-        countOfOrders=serviceObj.getCountOfUnassignedOrders();
+        Integer countOfOrders=serviceObj.getCountOfUnassignedOrders();
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
     //                            ........error in method API call........{time}is missing
     @GetMapping("/get-count-of-orders-left-after-given-time/{partnerId}")
     public ResponseEntity<Integer> getOrdersLeftAfterGivenTimeByPartnerId(@PathVariable String time, @PathVariable String partnerId){
 
-        Integer countOfOrders = 0;
+//        Integer countOfOrders = 0;
 
         //countOfOrders that are left after a particular time of a DeliveryPartner
-        countOfOrders= serviceObj.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
+        Integer countOfOrders= serviceObj.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
         return new ResponseEntity<>(countOfOrders, HttpStatus.CREATED);
     }
 
     @GetMapping("/get-last-delivery-time/{partnerId}")
     public ResponseEntity<String> getLastDeliveryTimeByPartnerId(@PathVariable String partnerId){
-        String time = null;
+//        String time = null;
 
         //Return the time when that partnerId will deliver his last delivery order.
-        time= serviceObj.getLastDeliveryTimeByPartnerId(partnerId);
+        String time= serviceObj.getLastDeliveryTimeByPartnerId(partnerId);
         return new ResponseEntity<>(time, HttpStatus.CREATED);
     }
 
